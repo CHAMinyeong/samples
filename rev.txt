@@ -1,3 +1,4 @@
 git reset hash using examples.
 Reusing example is done.
 Third work has done.
+Fourth work has done.
