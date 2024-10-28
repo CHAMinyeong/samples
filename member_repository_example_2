@@ -1,0 +1,141 @@
+package dao;
+
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import dto.member_dto;
+
+public class member_repository {
+	private static member_repository mr = new member_repository();
+	public static member_repository getInstance(){
+		return mr;
+	}
+	private Connection DBconn() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = null;
+		String db = "jdbc:mysql://localhost:3306/jspbook";
+		String id = "root";
+		String pw = "1234";
+		String name = "name";
+		conn = DriverManager.getConnection(db, id, pw);
+		System.out.println("데이터 베이스 연결 완료.");
+		return conn;
+	}
+	// Create
+		public void member_create(member_dto dto) {
+			// Step 1 : JDBC 드라이버 로딩
+			try {
+				Connection conn = DBconn();
+				
+				Statement stmt = conn.createStatement();
+				String userId = dto.getId();
+				String pw = dto.getPw();
+				String name = dto.getName();
+				
+				PreparedStatement pstmt = null;
+				
+				String sql = "insert into member values(id, pw, name) values(?, ?, ?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, userId);
+				pstmt.setString(2, pw);
+				pstmt.setString(3, name);
+				pstmt.executeUpdate();
+			}
+			
+			catch (Exception e) {System.out.println("데이터 베이스 연결 완료.");}
+			// Step 3 : SQL 전송 객체 생성 및 전송
+			
+			// Step 4 : 리턴이 있다면 ResultSet 객체에 담기 - CUD는 해당 없음
+		}
+			
+			
+		
+		// Read
+		public ArrayList<member_dto> getAllmember()	{
+			ArrayList<member_dto> arr = new ArrayList<member_dto>();
+			ResultSet rs = null;
+			try {
+				Connection conn = DBconn();
+				Statement stmt = conn.createStatement();
+				String sql = "select * from member";
+			
+				rs = stmt.executeQuery(sql);
+			
+				while (rs.next()) {
+										// 칼럼 명
+					String id = rs.getString("id");
+					String pw = rs.getString("pw");
+					String name = rs.getString("name");
+					
+					member_dto dto = new member_dto();
+					dto.setId(id);
+					dto.setPw(pw);
+					dto.setName(name);
+				
+				arr.add(dto);
+				}
+			}
+			catch(Exception e) {}
+			return arr;
+		}
+		
+
+		public member_dto getOnemember(String userId) {
+			member_dto dto = new member_dto();
+			try {
+				ResultSet rs = null;
+				// Step 1 : DB 연결
+				Connection conn = DBconn();
+				// Step 2 : Query 전송 및 실행
+				Statement stmt = conn.createStatement();
+				String sql = "select * from member where id = '" + userId+"'";
+				rs = stmt.executeQuery(sql);
+				if (rs.next()) {
+					String id = rs.getString("id");
+					String pw = rs.getString("pw");
+					String name = rs.getString("name");
+					
+					dto.setId(id);
+					dto.setPw(pw);
+					dto.setName(name);
+				}
+			} catch (Exception e) {e.printStackTrace();}
+			
+			return dto;
+			
+		}
+		
+		// Update
+		public void update_member(member_dto dto) {
+			try {
+				// Step 1 : DB 연결
+				Connection conn = DBconn();
+				// Step 2 : Query 전송 및 실행
+				Statement stmt = conn.createStatement();
+				String sql = "update member set pw='"+dto.getId()+"', age="+dto.getName()+" where id='"+dto.getId()+"' "
+						;
+				
+				}
+				catch (Exception e) {}
+			}
+		
+		// Delete
+		public void deleteuser(String id) {
+			try {
+				// Step 1 DB 연결
+				Connection conn = DBconn();
+				//Step 2 Query 실행
+				Statement stmt = conn.createStatement();
+				String sql = "delete from member where id = '" + id+"'";
+				System.out.println(sql);
+				stmt.executeUpdate(sql);
+			}
+			catch (Exception e) {e.printStackTrace();}
+		}
+	}
+
