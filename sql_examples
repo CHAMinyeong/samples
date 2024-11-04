@@ -1,0 +1,57 @@
+-- DDL : 데이터베이스 생성하기 (Create)
+create database shop_db;
+use shop_db;
+
+-- DDL : 데이터베이스 조회하기 (Read)
+show databases;
+
+-- DDL : 데이터베이스 수정하기 (Update)
+alter database shop_db default character set utf8 default collate utf8_unicode_ci;
+
+-- DDL : 데이터베이스 삭제하기 (Delete)
+drop database shop_db;
+
+-- DDL : 테이블 생성 (Create)
+create table member(
+	member_id char(8) not null primary key,
+    member_name char(5) not null,
+    member_addr char(20)
+);
+
+-- 테이블 삭제
+drop table member;
+drop table product;
+-- 테이블 읽어오기
+desc member;
+
+-- 테이블 수정하기
+
+
+create table product(
+	product_name char(4) not null primary key,
+    cost int not null,
+    make_date date,
+    company char(5),
+    amount int not null
+);
+
+desc product;
+
+-----------------------------------------------------------------------------------------------------------
+-- DML
+insert into member values("tess", "나훈아", "경기 부천시 중동");
+insert into member values("hero", "임영웅", "서울 은평구 증산동");
+insert into member values("iyou", "아이유", "인천 남구 주안동");
+insert into member values("jyp", "박진영", "경기 고양시 장항동");
+
+select * from member;
+
+insert into product values("바나나", 1500, "2024-11-03", "델몬트", 17);
+insert into product values("카스", 2500, "2024-11-02", "OB", 3);
+insert into product values("삼각김밥", 800, "2024-11-04", "CJ", 22);
+
+select * from product;
+-- 특정 칼럼만을 추출하여 전체 행을 출력
+select member_name, member_addr from member;
+-- 하나 또는 복수의 행을 검색할 때 (전체 행 X)
+select * from member where member_id = 'tess';
