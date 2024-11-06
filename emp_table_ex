@@ -1,0 +1,17 @@
+create table emp_table (emp char(4), manager char(4), phone varchar(8));
+
+insert into emp_table values('대표', null, '0000');
+insert into emp_table values('영업이사', '대표', '1111');
+insert into emp_table values('관리이사', '대표', '2222');
+insert into emp_table values('정보이사', '대표', '3333');
+insert into emp_table values('영업과장', '영업이사', '1111-1');
+insert into emp_table values('경리부장', '관리이사', '2222-1');
+insert into emp_table values('인사부장', '관리이사', '2222-2');
+insert into emp_table values('개발팀장', '정보이사', '3333-1');
+insert into emp_table values('개발주임', '정보이사', '3333-1-1');
+
+select A.emp "직원", B.emp "직속상관", B.phone "직속상관연락처"
+	from emp_table A
+		inner join emp_table B
+        on A.manager = B.emp
+	where A.emp = '경리부장';
