@@ -1,0 +1,21 @@
+drop function if exists calcYearFunc;
+delimiter $$
+create function calcYearFunc(dYear int)
+	returns int
+begin
+	declare runYear int;	-- 활동기간(연도)
+    set runYear = year(curdate()) - dYear;
+    return runYear;
+end $$
+delimiter ;
+
+select calcYearFunc(2010) as '활동햇수';
+
+select calcYearFunc(2007) into @debut2017;
+select calcYearFunc(2013) into @debut2013;
+select @debut2013-@debut2007 as '2007과 2013 차이';
+
+select mem_id, mem_name, calcYearFunc(year(debut_date)) as '활동 햇수'
+	from member;
+    
+show create function calcYearFunc;
