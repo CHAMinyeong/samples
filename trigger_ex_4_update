@@ -1,0 +1,10 @@
+drop trigger if exists singer_updateTrg;
+delimiter $$
+create trigger singer_updateTrg -- 트리거 이름
+	after update -- 변경 후에 작동하도록 지정
+    on singer -- 트리거를 부착할 테이블
+    for each row
+begin
+	insert into backup_singer values(OLD.mem_id, OLD.mem_name, OLD.mem_number, OLD.addr, '수정', curdate(), current_user());
+end $$
+delimiter ;
