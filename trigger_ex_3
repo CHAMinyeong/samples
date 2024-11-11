@@ -1,0 +1,12 @@
+use market_db;
+create table singer(select mem_id, mem_name, mem_number, addr from member);
+
+create table backup_singer(
+	mem_id char(8) not null,
+    mem_name varchar(10) not null,
+    mem_number int not null,
+    addr char(2) not null,
+    modType char(2), -- 변경된 타입. '수정' 또는 '삭제'
+    modDate date, -- 변경된 날짜
+    modUser varchar(30) -- 변경한 사용자
+);
