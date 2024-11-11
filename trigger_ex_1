@@ -1,0 +1,16 @@
+use market_db;
+create table if not exists trigger_table(id int, txt varchar(10));
+insert into trigger_table values (1, '레드벨벳');
+insert into trigger_table values (2, '잇지');
+insert into trigger_table values (3, '블랙핑크');
+
+drop trigger if exists myTrigger;
+delimiter $$
+create trigger myTrigger
+	after delete
+    on trigger_table
+    for each row
+begin
+	set @msg = '가수 그룹이 삭제됨'; -- 트리거 실행 시 삭제되는 코드들
+end $$
+delimiter ;
