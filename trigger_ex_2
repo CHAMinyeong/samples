@@ -1,0 +1,8 @@
+set @msg = '';
+insert into trigger_table values(4, '마마무');
+select @msg;
+update trigger_table set txt = '블핑' where id = 3;
+select @msg;
+
+delete from trigger_table where id = 4;
+select @msg;
