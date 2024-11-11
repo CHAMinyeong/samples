@@ -1,0 +1,8 @@
+update singer set addr = '영국' where mem_id = 'BLK';
+delete from singer where mem_number >= 7;
+
+select * from backup_singer;
+
+truncate table singer;
+
+select * from backup_singer;
