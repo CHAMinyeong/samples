@@ -1,0 +1,21 @@
+package com.springmvc.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class BookController {
+	@Autowired
+	private BookService bookService;
+	System.out.println("Autowired 무사히 실행 완료");
+	
+	@RequestMapping(value="/books", mehtod=RequsetMethod.GET)
+	public String requestBookList(Model model) {
+		List<Book> list = bookService.getAllBookList();
+		model.addAttribute("bookList", list);
+		return "books";
+		System.out.println("Book List 불러옴.");
+	}
+}
