@@ -1,0 +1,46 @@
+@GetMapping("/project05")
+	public String project05() {
+		String client_id = "q6ecohxbgf";
+		String client_secret = "F47NpeqGgiuib2cYR9QRNUJKQ4H9FELJMGv9UHgx";
+		/*키보드를 통하여 InputStreamReader 클래스를 통해 바이트 단위로 입력받고 라인단위로 읽기 위해서 버퍼리더를 연결함*/
+		BufferedReader io = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			System.out.println("주소를 입력하세요 : ");
+			String address = io.readLine();
+			// 입력받는 문자열의 공백으로 인해서 데이터를 끝으로 인식하므로 UTF-8로 변경하면 %20으로 변환됨
+			String addr = URLEncoder.encode(address, "UTF-8");
+			
+			// Step 2 : URL 작성하기
+			String reqUrl="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query="+addr;
+					
+			// Step 3 : 작성된 URL을 이용하요 요청을 발생 시킴
+			URL url = new URL(reqUrl);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("x-ncp-apigw-api-key-id", client_id);
+			con.setRequestProperty("x-ncp-apigw-api-key", client_secret);
+			
+			// Step 4 : 요청 후 응답 데이터 수신하기
+			// 200 ok
+			int responseCode = con.getResponseCode();
+			
+			BufferedReader br = new BufferedReader(
+								new InputStreamReader(con.getInputStream(), "UTF-8"));
+			
+			// Step 5 : 수신한 데이터 문자열 데이터로 변환하기
+			String line;
+			StringBuffer data = new StringBuffer();
+			// JSON을 한 줄 씩 읽어서 응답 클래스 안에 한 줄 씩 입력함
+			while((line=br.readLine()) != null) {
+				data.append(line);
+			}
+			br.close();
+			System.out.println(data);
+			
+			} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		return "index";
+	}
